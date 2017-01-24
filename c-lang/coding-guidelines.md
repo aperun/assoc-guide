@@ -26,7 +26,7 @@ Indentation
 
 There are two acceptable indentation styles for code:
 
-- Linux Kernel style (Tabs with a length of 8 characters are used for the indentation, with K&R brace placement):
+Linux Kernel style (Tabs with a length of 8 characters are used for the indentation, with K&R brace placement)
 ```
 for (i = 0; i < num_elements; i++) {
         foo[i] = foo[i] + 42;
@@ -41,7 +41,7 @@ for (i = 0; i < num_elements; i++) {
 }
 ```
 
-- Ground style (Each new level is indented by 2 spaces):
+Ground style (Each new level is indented by 2 spaces)
 ```
 for (i = 0; i < num_elements; i++) {
     foo[i] = foo[i] + 42;
