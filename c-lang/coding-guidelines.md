@@ -364,44 +364,6 @@ case BAR:
 	break;
 }
 
-/* valid GNU style */
-switch (condition)
-  {
-  case FOO:
-    do_foo ();
-    break;
-
-  case BAR:
-    do_bar ();
-    break;
-  }
-
-/* invalid */
-switch (condition) {
-  case FOO: do_foo (); break;
-  case BAR: do_bar (); break;
-}
-
-/* invalid */
-switch (condition)
-  {
-  case FOO: do_foo ();
-    break;
-  case BAR: do_bar ();
-    break;
-  }
-
-/* invalid */
-switch (condition)
-  {
-    case FOO:
-    do_foo ();
-    break;
-    case BAR:
-    do_bar ();
-    break;
-  }
-
 It is preferable, though not mandatory, to separate the various cases with a newline:
 
 switch (condition) {
