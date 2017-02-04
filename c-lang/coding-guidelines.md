@@ -77,7 +77,7 @@ else
 
 The “no block for single statements” rule has only four exceptions:
 
-    In GNU style, if either side of an if-else statement has braces, both sides should, to match up indentation:
+In GNU style, if either side of an if-else statement has braces, both sides should, to match up indentation:
 
     /* valid GNU style */
     if (condition)
@@ -99,7 +99,7 @@ The “no block for single statements” rule has only four exceptions:
     else
       baz ();
 
-    If the single statement covers multiple lines, e.g. for functions with many arguments, and it is followed by else or else if:
+If the single statement covers multiple lines, e.g. for functions with many arguments, and it is followed by else or else if:
 
     /* valid Linux kernel style */
     if (condition) {
@@ -142,9 +142,9 @@ The “no block for single statements” rule has only four exceptions:
         a_single_statement ();
       }
 
-    Note that such long conditions are usually hard to understand. A good practice is to set the condition to a boolean variable, with a good name for that variable. Another way is to move the long condition to a function.
+Note that such long conditions are usually hard to understand. A good practice is to set the condition to a boolean variable, with a good name for that variable. Another way is to move the long condition to a function.
 
-    Nested ifs, in which case the block should be placed on the outermost if:
+Nested ifs, in which case the block should be placed on the outermost if:
 
     /* valid Linux kernel style */
     if (condition) {
@@ -219,6 +219,7 @@ my_function (int argument)
 
 Do not check boolean values for equality. By using implicit comparisons, the resulting code can be read more like conversational English. Another rationale is that a ‘true’ value may not be necessarily equal to whatever the TRUE macro uses. For example:
 
+```
 /* invalid */
 if (found == TRUE)
 	do_foo ();
@@ -234,9 +235,11 @@ if (found)
 /* valid */
 if (!found)
 	do_bar ();
+```
 
 The C language uses the value 0 for many purposes. As a numeric value, the end of a string, a null pointer and the FALSE boolean. To make the code clearer, you should write code that highlights the specific way 0 is used. So when reading a comparison, it is possible to know the variable type. For boolean variables, an implicit comparison is appropriate because it’s already a logical expression. Other variable types are not logical expressions by themselves, so an explicit comparison is better:
 
+```
 /* valid */
 if (some_pointer == NULL)
 	do_blah ();
@@ -260,16 +263,18 @@ if (!number)
 /* invalid */
 if (str && *str)
 	do_bar ();
+```
 
 ## Functions ##
 
 Functions should be declared by placing the returned value on a separate line from the function name:
-
+```
 void
 my_function (void)
 {
   …
 }
+```
 
 The argument list must be broken into a new line for each argument, with the argument names right aligned, taking into account pointers:
 
