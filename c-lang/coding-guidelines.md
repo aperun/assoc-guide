@@ -1,8 +1,8 @@
 # C Coding Guidelines #
 --------------------------------------------------------------------------------
 This document presents the preferred coding style for C programs in the
- Groundlings. Coding style promotes consistency, readability, and
- maintainability.
+ Groundlings. Coding style promotes consistency, readability, maintainability,
+ and compatibility.
 
 Examples of good coding style are presented as well as examples of bad style
  that is not acceptable. Please try to conform to Groundling’s coding style.
