@@ -17,16 +17,22 @@ As a maintainer it is dismaying to receive a patch that is obviously in a
  someone tromping into a spotlessly-clean house with muddy shoes.
 
 So, whatever this document recommends, if there is already written code and you
-are patching it, keep its current style consistent even if it is not your favorite style.
+ are patching it, keep its current style consistent even if it is not your favorite style.
 
 ## Line Width ##
 
-Try to use lines of code between 80 and 120 characters long. This amount of text is easy to fit in most monitors with a decent font size. Lines longer than that become hard to read, and they mean that you should probably restructure your code. If you have too many levels of indentation, it means that you should fix your code anyway.
-Indentation
+Try to use lines of code between 80 and 120 characters long. This amount of text
+ is easy to fit in most monitors with a decent font size. Lines longer than that
+ become hard to read, and they mean that you should probably restructure your
+ code. If you have too many levels of indentation, it means that you should fix
+ your code anyway.
+
+## Indentation ##
 
 There are two acceptable indentation styles for code:
 
-Linux Kernel style (Tabs with a length of 8 characters are used for the indentation, with K&R brace placement)
+Linux Kernel style (Tabs with a length of 8 characters are used for the
+ indentation, with K&R brace placement)
 ```
 for (i = 0; i < num_elements; i++) {
         foo[i] = foo[i] + 42;
@@ -55,10 +61,19 @@ for (i = 0; i < num_elements; i++) {
     }
 }
 ```
-Both styles have their pros and cons. The most important things is to be consistent with the surrounding code. Both styles are perfectly readable and consistent when you get used to them.
 
-Your first feeling when having to study or work on a piece of code that doesn’t have your preferred indentation style may be, how shall we put it, gut-wrenching. You should resist your inclination to reindent everything, or to use an inconsistent style for your patch. Remember the first rule: be consistent and respectful of that code’s customs, and your patches will have a much higher chance of being accepted without a lot of arguing about the right indentation style.
+Both styles have their pros and cons. The most important things is to be
+ consistent with the surrounding code. Both styles are perfectly readable and
+ consistent when you get used to them.
 
+Your first feeling when having to study or work on a piece of code that doesn’t
+ have your preferred indentation style may be, how shall we put it,
+ gut-wrenching. You should resist your inclination to reindent everything, or to
+ use an inconsistent style for your patch. Remember the first rule: be
+ consistent and respectful of that code’s customs, and your patches will have a
+ much higher chance of being accepted without a lot of arguing about the right
+ indentation style.
+ 
 ## Tab Characters ##
 
 Do not ever change the size of tabs in your editor; leave them as 8 spaces. Changing the size of tabs means that code that you didn’t write yourself will be perpetually misaligned.
@@ -67,18 +82,8 @@ Instead, set the indentation size as appropriate for the code you are editing. W
 
 ## Braces ##
 
-Curly braces should not be used for single statement blocks:
-
-/* valid */
-if (condition)
-	single_statement ();
-else
-	another_single_statement (arg1);
-
-The “no block for single statements” rule has only four exceptions:
-
 In GNU style, if either side of an if-else statement has braces, both sides should, to match up indentation:
-
+```
     /* valid GNU style */
     if (condition)
       {
@@ -98,9 +103,10 @@ In GNU style, if either side of an if-else statement has braces, both sides shou
       }
     else
       baz ();
+```
 
 If the single statement covers multiple lines, e.g. for functions with many arguments, and it is followed by else or else if:
-
+```
     /* valid Linux kernel style */
     if (condition) {
     	a_single_statement_with_many_arguments (some_lengthy_argument,
@@ -122,9 +128,9 @@ If the single statement covers multiple lines, e.g. for functions with many argu
       {
         another_single_statement (arg1, arg2);
       }
-
-    If the condition is composed of many lines:
-
+```
+If the condition is composed of many lines:
+```
     /* valid Linux kernel style */
     if (condition1 ||
         (condition2 && condition3) ||
@@ -141,7 +147,7 @@ If the single statement covers multiple lines, e.g. for functions with many argu
       {
         a_single_statement ();
       }
-
+```
 Note that such long conditions are usually hard to understand. A good practice is to set the condition to a boolean variable, with a good name for that variable. Another way is to move the long condition to a function.
 
 Nested ifs, in which case the block should be placed on the outermost if:
@@ -217,67 +223,65 @@ my_function (int argument)
 
 ## Conditions ##
 
-Do not check boolean values for equality. By using implicit comparisons, the resulting code can be read more like conversational English. Another rationale is that a ‘true’ value may not be necessarily equal to whatever the TRUE macro uses. For example:
+Do not check boolean values for equality. By using implicit comparisons, the
+ resulting code can be read more like conversational English. Another rationale
+ is that a ‘true’ value may not be necessarily equal to whatever the TRUE macro
+ uses. For example:
 
 ```
 /* invalid */
-if (found == TRUE)
-	do_foo ();
+if (found == TRUE) { do_foo (); }
 
 /* invalid */
-if (found == FALSE)
-	do_bar ();
+if (found == FALSE) { do_bar (); }
 
 /* valid */
-if (found)
-	do_foo ();
+if (found) { do_foo (); }
 
 /* valid */
-if (!found)
-	do_bar ();
+if (!found) { do_bar (); }
 ```
 
-The C language uses the value 0 for many purposes. As a numeric value, the end of a string, a null pointer and the FALSE boolean. To make the code clearer, you should write code that highlights the specific way 0 is used. So when reading a comparison, it is possible to know the variable type. For boolean variables, an implicit comparison is appropriate because it’s already a logical expression. Other variable types are not logical expressions by themselves, so an explicit comparison is better:
+The C language uses the value 0 for many purposes. As a numeric value, the end
+ of a string, a null pointer and the FALSE boolean. To make the code clearer,
+ you should write code that highlights the specific way 0 is used. So when
+ reading a comparison, it is possible to know the variable type. For boolean
+ variables, an implicit comparison is appropriate because it’s already a logical
+ expression. Other variable types are not logical expressions by themselves, so
+ an explicit comparison is better:
 
 ```
 /* valid */
-if (some_pointer == NULL)
-	do_blah ();
+if (some_pointer == NULL) { do_blah (); }
 
 /* valid */
-if (number == 0)
-	do_foo ();
+if (number == 0) { do_foo (); }
 
 /* valid */
-if (str != NULL && *str != '\0')
-	do_bar ();
+if (str != NULL && *str != '\0') { do_bar (); }
 
 /* invalid */
-if (!some_pointer)
-	do_blah ();
+if (!some_pointer) { do_blah (); }
 
 /* invalid */
-if (!number)
-	do_foo ();
+if (!number) { do_foo (); }
 
 /* invalid */
-if (str && *str)
-	do_bar ();
+if (str && *str) { do_bar (); }
 ```
 
 ## Functions ##
 
 Functions should be declared by placing the returned value on a separate line from the function name:
 ```
-void
-my_function (void)
-{
+void my_function (void) {
   …
 }
 ```
 
-The argument list must be broken into a new line for each argument, with the argument names right aligned, taking into account pointers:
-
+The argument list must be broken into a new line for each argument, with the
+ argument names right aligned, taking into account pointers:
+```
 void
 my_function (some_type_t      type,
              another_type_t  *a_pointer,
@@ -286,7 +290,7 @@ my_function (some_type_t      type,
 {
   …
 }
-
+```
 If you use Emacs, you can use M-x align to do this kind of alignment automatically. Just put the point and mark around the function’s prototype, and invoke that command.
 
 The alignment also holds when invoking a function without breaking the line length limit:
@@ -298,25 +302,22 @@ align_function_arguments (first_argument,
 ## Whitespace ##
 
 Always put a space before an opening parenthesis but never after:
-
+```
 /* valid */
-if (condition)
-	do_my_things ();
+if (condition) { do_my_things (); }
 
 /* valid */
 switch (condition) {
 }
 
 /* invalid */
-if(condition)
-	do_my_things();
+if(condition) { do_my_things(); }
 
 /* invalid */
-if ( condition )
-	do_my_things ( );
-
+if ( condition ) { do_my_things ( ); }
+```
 When declaring a structure type use newlines to separate logical sections of the structure:
-
+```
 struct _GtkWrapBoxPrivate
 {
 	GtkOrientation        orientation;
@@ -333,26 +334,15 @@ struct _GtkWrapBoxPrivate
 
 	GList                *children;
 };
+```
 
 Do not eliminate whitespace and newlines just because something would fit on a single line:
-
+```
 /* invalid */
-if (condition) foo (); else bar ();
+if (condition) { foo (); } else { bar (); }
+```
 
 Do eliminate trailing whitespace on any line, preferably as a separate patch or commit. Never use empty lines at the beginning or at the end of a file.
-
-This is a little Emacs function that you can use to clean up lines with trailing whitespace:
-
-(defun clean-line-ends ()
-  (interactive)
-  (if (not buffer-read-only)
-      (save-excursion
-	(goto-char (point-min))
-	(let ((count 0))
-	  (while (re-search-forward "[ 	]+$" nil t)
-	    (setq count (+ count 1))
-	    (replace-match "" t t))
-	  (message "Cleaned %d lines" count)))))
 
 ## The switch Statement ##
 
