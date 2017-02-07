@@ -1,5 +1,14 @@
 # C Coding Guidelines #
 --------------------------------------------------------------------------------
+
+- Line Width
+- Indention
+- White Space
+- Brackets
+- Comments
+- Naming System
+- Exceptions
+
 This document presents the preferred coding style for C programs in the
  Groundlings. Coding style promotes consistency, readability, maintainability,
  and compatibility.
