@@ -1,0 +1,21 @@
+{
+  "name": "string",
+  "authors": {
+    "single-author": {
+      "no-refs": "name",
+      "refs": [{"author-property": "@value"}]
+    },
+    "multi-author": ["@single-author"]
+  },
+  "version": 1.0,
+  "manifest": {
+    "file-manifest": "filename",
+    "object-manifest": {
+      "content": ["filename"],
+      "resources": ["filename"],
+      "scripts": ["filename"],
+      "styles": ["filename"]
+    },
+    "list-manifest": ["filename"]
+  }
+}
